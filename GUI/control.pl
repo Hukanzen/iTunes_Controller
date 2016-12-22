@@ -1,4 +1,4 @@
-use strict;
+﻿use strict;
 use warnings;
 
 use Win32::Clipboard;
@@ -8,7 +8,7 @@ use Win32::OLE;
 my $itunes =Win32::OLE->new("iTunes.Application") or die "iTunesオブジェクトを作成できません。";
 my $playlistName;
 if(!defined($playlistName=$itunes->Currentplaylist)){
-	$playlistName='local';
+	$playlistName='like56';
 }else{
 	$playlistName=$itunes->Currentplaylist->Name;
 }	

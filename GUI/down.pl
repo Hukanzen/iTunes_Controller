@@ -21,6 +21,8 @@ if(!system($cmd)){
 	exit 2;
 }
 
+print $cmd;
+
 #my $OLE=Win32::OLE->GetObject($app);
 #my $OLE=Win32::OLE->GetActiveObject($app);
 #my $OLE=Win32::OLE->new($app);

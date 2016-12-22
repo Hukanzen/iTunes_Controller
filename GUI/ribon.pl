@@ -1,4 +1,4 @@
-use strict;
+﻿use strict;
 use warnings;
 use Encode qw(decode);
 
@@ -12,7 +12,7 @@ my $ENCODE='cp932';
 my $itunes =Win32::OLE->new("iTunes.Application") or die "iTunesオブジェクトを作成できません。";
 my $playlistName;
 if(!defined($playlistName=$itunes->Currentplaylist)){
-	$playlistName='local';
+	$playlistName='like56';
 }else{
 	$playlistName=$itunes->Currentplaylist->Name;
 }	
@@ -29,7 +29,7 @@ sub main(){
 	$top=MainWindow->new(-title=>'iTunes Control');
 	$top->minsize(150,200);
 		
-	my $tk_nowPlaying=decode($ENCODE,$itunes->CurrentTrack->Name);
+	my $tk_nowPlaying=decode($ENCODE,$playlistName);
 
 	my $Playing_name=$top->Label(-fg=>'black',-textvariable=>\$tk_nowPlaying);
 
@@ -144,11 +144,7 @@ sub copy(){
 		exit 3;
 	} 
 
-	my $text=sprintf("
-		#nowplaying \n 
-		Title \"%s\"\n 
-		Album \"%s\"\n 
-		Artist \"%s\"",$track->Name ,$track->Album,$track->Artist);
+	my $text=sprintf("#nowplaying \nTitle \"%s\"\nAlbum \"%s\"\nArtist \"%s\"",$track->Name ,$track->Album,$track->Artist);
 	
 	$clip->Set($text);
 	
@@ -241,7 +237,9 @@ sub update{
 
 #	$top->Label(-fg=>'black',-text=>'iTunes Control')->pack();
 	$Playing_name->pack();
+	print "Now Playing: ";
 	printf($itunes->CurrentTrack->Name);
+	print "\n";
 	
 	MainLoop();
 	return ;
