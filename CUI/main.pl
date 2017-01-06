@@ -52,10 +52,10 @@ sub tweet_func{
 	$ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
 
 	my $nt = Net::Twitter::Lite::WithAPIv1_1->new(
-	    consumer_key => 'Tx427H6hqif3CXT13zBzJhyFU',
-	    consumer_secret => 'iST1kW3XuWXrVeLJQSNuoYlscdW6zOvcC3qy4YlXy5lU9JH1Tv',
-	    access_token_secret => 'LUWPfVC292mIXT0tYaTZl2cjooqqcvnRffnbABwWAnIAm',
-	    access_token => '466465919-wpwPbl6Yd4q44tXjqc5BwQLu0FRPCkeml8pCM9iT',
+	    consumer_key => 'xxx',
+	    consumer_secret => 'xxx',
+	    access_token_secret => 'xxx',
+	    access_token => 'xxx',
 	    ssl => 1,
 	);
 
