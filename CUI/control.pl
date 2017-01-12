@@ -1,20 +1,23 @@
 use strict;
 use warnings;
 
+use Data::Dumper;
+
 use Win32::Clipboard;
 use Win32::OLE;
 
 #=== グローバル変数 ===#
 my $itunes =Win32::OLE->new("iTunes.Application") or die "iTunesオブジェクトを作成できません。";
 my $playlistName;
-if(!defined($playlistName=$itunes->Currentplaylist)){
-	$playlistName='local';
+if(!defined($playlistName=$itunes->Currentplaylist->Name)){
+	$playlistName='like56';
 }else{
 	$playlistName=$itunes->Currentplaylist->Name;
 }	
 #$playlistName;
 
 my $track_list = $itunes->LibrarySource->Playlists->ItemByName($playlistName);
+
 #=== グローバル変数 ===#
 
 &main();
@@ -45,6 +48,8 @@ sub main(){
 		$itunes->{SoundVolume}+=&Volume();
 	}elsif($value==7){
 		&list;
+	}elsif($value==8){
+		&set_playlist;
 	}else{
 		&HELP;
 	}
@@ -69,6 +74,7 @@ sub HELP(){
 	printf("5-VolumeDown\n");
 	printf("6-VolumeUp\n");
 	printf("7-List\n");
+	printf("8-set_playlist\n");
 	
 	exit 1;
 }
@@ -127,4 +133,7 @@ sub list(){
 		printf("%s\n",$tracks->item($cic)->Name);
 	}
 
+}
+sub set_playlist{
+	$track_list->PlayFirstTrack();
 }

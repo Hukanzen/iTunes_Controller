@@ -58,6 +58,9 @@ sub main(){
 	$top->Button(-text=>'update' ,-command=>[\&update])->pack();
 	$top->Label(-fg=>'black',-text=>"\n")->pack();
 
+	$top->Button(-text=>'set play_list' ,-command=>[\&set_playlist])->pack();
+	$top->Label(-fg=>'black',-text=>"\n")->pack();
+
 	$top->Button(-text=>'HELP' ,-command=>\&HELP)->pack();
 	$top->Button(-text=>'EXIT' ,-command=>\&exit)->pack();
 	
@@ -243,4 +246,8 @@ sub update{
 	
 	MainLoop();
 	return ;
+}
+
+sub set_playlist{
+	$track_list->PlayFirstTrack();
 }

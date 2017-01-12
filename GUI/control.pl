@@ -1,13 +1,15 @@
-ï»¿use strict;
+use strict;
 use warnings;
+
+use Data::Dumper;
 
 use Win32::Clipboard;
 use Win32::OLE;
 
-#=== ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•° ===#
-my $itunes =Win32::OLE->new("iTunes.Application") or die "iTunesã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã§ãã¾ã›ã‚“ã€‚";
+#=== ƒOƒ[ƒoƒ‹•Ï” ===#
+my $itunes =Win32::OLE->new("iTunes.Application") or die "iTunesƒIƒuƒWƒFƒNƒg‚ğì¬‚Å‚«‚Ü‚¹‚ñB";
 my $playlistName;
-if(!defined($playlistName=$itunes->Currentplaylist)){
+if(!defined($itunes->Currentplaylist)){
 	$playlistName='like56';
 }else{
 	$playlistName=$itunes->Currentplaylist->Name;
@@ -15,7 +17,8 @@ if(!defined($playlistName=$itunes->Currentplaylist)){
 #$playlistName;
 
 my $track_list = $itunes->LibrarySource->Playlists->ItemByName($playlistName);
-#=== ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•° ===#
+
+#=== ƒOƒ[ƒoƒ‹•Ï” ===#
 
 &main();
 sub main(){
@@ -45,6 +48,8 @@ sub main(){
 		$itunes->{SoundVolume}+=&Volume();
 	}elsif($value==7){
 		&list;
+	}elsif($value==8){
+		&set_playlist;
 	}else{
 		&HELP;
 	}
@@ -69,6 +74,7 @@ sub HELP(){
 	printf("5-VolumeDown\n");
 	printf("6-VolumeUp\n");
 	printf("7-List\n");
+	printf("8-set_playlist\n");
 	
 	exit 1;
 }
@@ -107,8 +113,10 @@ sub copy(){
 sub list(){
 	printf ("Playlist name : %s\n",$playlistName);
 	my $tracks=$track_list->Tracks;
+	#my @list_Item;
 
 	for(my $i=1;$i<=($tracks->Count);$i++){
+		#@list_Item[$i-1]=$tracks->item($i);
 		my $list_Item=$tracks->item($i);
 		my $Name=$list_Item->Name;
 		printf ("%d:%s\n",$i,$Name);
@@ -116,12 +124,16 @@ sub list(){
 			my $cut=<STDIN>;
 		}
 	}
-	printf("ç•ªå·ã‚’å…¥åŠ›ã™ã‚‹ã“ã¨ã§ã€æ›²é¸æŠãŒã§ãã¾ã™ã€‚\n");
+	printf("”Ô†‚ğ“ü—Í‚·‚é‚±‚Æ‚ÅA‹È‘I‘ğ‚ª‚Å‚«‚Ü‚·B\n");
 	my $cic=<STDIN>;
 
 	if($cic=~m!^\d+$!){
 		$tracks->item($cic)->Play();
+	#	@list_Item[$cic-1]->Play();
 		printf("%s\n",$tracks->item($cic)->Name);
 	}
 
+}
+sub set_playlist{
+	$track_list->PlayFirstTrack();
 }
