@@ -1,3 +1,9 @@
+#===2017/01/15 22:37===#
+#nextTrack.prevTrackは扱いとしては、割り込みなっている(?)
+#早急に修正すべし、
+#また、プレイリスト選択機能
+
+
 use strict;
 use warnings;
 
@@ -20,18 +26,33 @@ my $track_list = $itunes->LibrarySource->Playlists->ItemByName($playlistName);
 
 #=== グローバル変数 ===#
 
-&main();
+#while(1){
+	&main();
+#}
+
 sub main(){
 	if(@ARGV != 1){
 		&HELP;
+		exit 1;
 	}
+	
+	#&HELP;
 	
 	my $value=$ARGV[0];
+	#my $value=<STDIN>;
+
+	#$value=chomp($value);
 	
 	if($value!~m!^\d+$!){
-		&HELP;
+		print "please number";
+		#&HELP;
+		exit 1;
+	}elsif($value eq '\n'){
+	#	print "please number";
+		next;
 	}
-	
+
+
 	if($value==0){
 		$itunes->pause();
 	}elsif($value==1){
@@ -50,10 +71,12 @@ sub main(){
 		&list;
 	}elsif($value==8){
 		&set_playlist;
+	}elsif($value==100){
+		exit(0);
 	}else{
 		&HELP;
 	}
-	printf("Title: %s\n",($itunes->CurrentTrack->Name));
+	#printf("Title: %s\n",($itunes->CurrentTrack->Name));
 	
 }
 
@@ -76,7 +99,7 @@ sub HELP(){
 	printf("7-List\n");
 	printf("8-set_playlist\n");
 	
-	exit 1;
+	#exit 1;
 }
 
 sub Volume(){
@@ -130,7 +153,9 @@ sub list(){
 	if($cic=~m!^\d+$!){
 		$tracks->item($cic)->Play();
 	#	@list_Item[$cic-1]->Play();
-		printf("%s\n",$tracks->item($cic)->Name);
+	#	printf("%s\n",$tracks->item($cic)->Name);
+	}elsif($cic eq "q"){
+		exit 2;
 	}
 
 }
